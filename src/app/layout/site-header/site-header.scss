@@ -1,0 +1,17 @@
+.site-header {
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+
+.site-header__brand {
+  gap: 0.75rem;
+  font-weight: 600;
+}
+
+.site-header__navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 0.75rem max(1rem, calc((100% - 72rem) / 2));
+  background-color: var(--mat-sys-surface-container);
+}

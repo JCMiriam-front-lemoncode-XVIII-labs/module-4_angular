@@ -1,0 +1,19 @@
+.navigation-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.navigation-menu__label {
+  margin-right: 0.25rem;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navigation-menu__link--active {
+  background-color: var(--mat-sys-secondary-container);
+}
