@@ -2,11 +2,22 @@
   <mat-toolbar class="site-header__brand" color="primary">
     <mat-icon aria-hidden="true">auto_awesome</mat-icon>
     <span>Angular Lab</span>
+    <span class="site-header__spacer"></span>
+
+    @if (auth.isLogged()) {
+      <span class="site-header__username">{{ auth.getUsername() }}</span>
+      <button mat-button type="button" (click)="logout()">
+        <mat-icon aria-hidden="true">logout</mat-icon>
+        Salir
+      </button>
+    }
   </mat-toolbar>
 
-  <!-- Durante esta fase se muestran ambos menús para comprobar todas las rutas. -->
   <div class="site-header__navigation">
-    <app-public-nav />
-    <app-private-nav />
+    @if (auth.isLogged()) {
+      <app-private-nav />
+    } @else {
+      <app-public-nav />
+    }
   </div>
 </header>
