@@ -1,5 +1,57 @@
-<section class="page-placeholder">
-  <p class="page-placeholder__eyebrow">Página privada</p>
-  <h1>Galería</h1>
-  <p>La galería de fotografías se implementará como ejercicio opcional.</p>
+<section class="gallery" aria-labelledby="gallery-title">
+  <header>
+    <h1 id="gallery-title">Galería</h1>
+    <p>Selecciona una imagen o usa los controles para recorrer la colección.</p>
+  </header>
+
+  <div class="gallery__viewer">
+    <img [src]="selectedImage.src" [alt]="selectedImage.title" [style.width.%]="imageSize" />
+    <p>{{ selectedImage.title }}</p>
+  </div>
+
+  <div class="gallery__controls" aria-label="Controles de la galería">
+    <button mat-stroked-button type="button" [disabled]="selectedIndex === 0" (click)="previous()">
+      <mat-icon aria-hidden="true">navigate_before</mat-icon>
+      Anterior
+    </button>
+    <button mat-stroked-button type="button" [disabled]="selectedIndex === images.length - 1" (click)="next()">
+      Siguiente
+      <mat-icon aria-hidden="true">navigate_next</mat-icon>
+    </button>
+    <button mat-stroked-button type="button" (click)="increaseSize()">
+      <mat-icon aria-hidden="true">zoom_in</mat-icon>
+      Aumentar
+    </button>
+    <button mat-stroked-button type="button" (click)="decreaseSize()">
+      <mat-icon aria-hidden="true">zoom_out</mat-icon>
+      Disminuir
+    </button>
+
+    @if (isPlaying) {
+      <button mat-flat-button type="button" (click)="stop()">
+        <mat-icon aria-hidden="true">stop</mat-icon>
+        Stop
+      </button>
+    } @else {
+      <button mat-flat-button type="button" (click)="play()">
+        <mat-icon aria-hidden="true">play_arrow</mat-icon>
+        Play
+      </button>
+    }
+  </div>
+
+  <div class="gallery__thumbnails" aria-label="Listado de imágenes">
+    @for (image of images; track image.id; let imageIndex = $index) {
+      <button
+        type="button"
+        class="gallery__thumbnail"
+        [class.gallery__thumbnail--selected]="imageIndex === selectedIndex"
+        [attr.aria-label]="'Seleccionar ' + image.title"
+        [attr.aria-pressed]="imageIndex === selectedIndex"
+        (click)="selectImage(imageIndex)"
+      >
+        <img [src]="image.src" [alt]="image.title" />
+      </button>
+    }
+  </div>
 </section>
