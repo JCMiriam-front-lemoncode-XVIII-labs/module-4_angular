@@ -9,13 +9,15 @@ export interface LoginCredentials {
   providedIn: 'root',
 })
 export class Auth {
-  private username = '';
+  private readonly storageKey = 'angular-lab.username';
+  private username = localStorage.getItem(this.storageKey) ?? '';
 
   login({ username, password }: LoginCredentials): boolean {
     const isValidUser = username === 'master@lemoncode.net' && password === '12345678';
 
     if (isValidUser) {
       this.username = username;
+      localStorage.setItem(this.storageKey, username);
     }
 
     return isValidUser;
@@ -23,6 +25,7 @@ export class Auth {
 
   logout(): void {
     this.username = '';
+    localStorage.removeItem(this.storageKey);
   }
 
   isLogged(): boolean {
