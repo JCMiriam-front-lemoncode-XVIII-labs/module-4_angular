@@ -1,59 +1,163 @@
-# AngularLab
+# 🅰️ Angular LAB
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.34.
+Este repositorio contiene la resolución del laboratorio del módulo de Angular de Lemoncode. La aplicación reúne una mini-SPA con navegación pública y privada, autenticación simulada, Angular Material, Sass y ejercicios opcionales de galería, directivas y RxJS.
 
-## Development server
+La solución utiliza componentes standalone y organiza el código por responsabilidad: layout, páginas, servicios y elementos compartidos.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📁 Estructura del proyecto
 
 ```bash
-ng generate component component-name
+public/
+└── assets/
+    └── gallery/                  # Imágenes locales de la galería
+
+src/
+├── app/
+│   ├── layout/                   # Cabecera, pie y menús de navegación
+│   ├── pages/                    # Páginas enrutadas de la aplicación
+│   ├── services/                 # Servicios de estado, como Auth
+│   ├── shared/
+│   │   └── directives/           # Directivas reutilizables
+│   ├── app.config.ts             # Proveedores de la aplicación
+│   ├── app.routes.ts             # Definición de rutas
+│   └── app.ts                    # Componente raíz
+├── styles.scss                   # Tema y estilos globales
+└── main.ts                       # Punto de entrada
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
+
+## 🧪 Laboratorio y retos
+
+### 1️⃣ Mini-aplicación con autenticación
+
+Aplicación con layout común y navegación dependiente del estado de sesión.
+
+- Routing para Home, Login, Acerca de, Dashboard, Galería, CRUD y Perfil.
+- Menú público y privado, cabecera con logo y pie común.
+- Formulario reactivo de login con validaciones y mensajes de error.
+- Servicio `Auth` con login, logout, consulta de sesión y username.
+- Persistencia de la sesión mediante `localStorage`.
+- Username y botón de salida visibles únicamente tras iniciar sesión.
+
+Credenciales de prueba:
+
+```text
+Usuario: master@lemoncode.net
+Contraseña: 12345678
+```
+
+---
+
+### 2️⃣ Galería de fotos
+
+Galería con ocho imágenes locales servidas desde `public/assets/gallery`.
+
+- Selección de imagen mediante miniaturas.
+- Navegación anterior/siguiente con límites deshabilitados.
+- Controles para aumentar y disminuir el tamaño de la imagen.
+- Reproductor automático: cambia de imagen cada dos segundos y vuelve al inicio.
+- Botones Play y Stop según el estado del reproductor.
+- Imagen activa resaltada y miniaturas paginadas de tres en tres con `SlicePipe`.
+
+📂 `src/app/pages/gallery/`
+
+---
+
+### 3️⃣ Reto: directiva Rotate
+
+Directiva personalizada aplicada exclusivamente a imágenes.
+
+- Rotación inicial configurable mediante el atributo `rotate`.
+- Paso configurable mediante `step`; por defecto, 10 grados.
+- Clic para girar en sentido horario y Shift + clic para invertir el sentido.
+- Ejemplo integrado en la imagen principal de la Galería.
+
+📂 `src/app/shared/directives/rotate.ts`
+
+---
+
+### 4️⃣ Reto: login asíncrono con RxJS
+
+- `Auth.login()` devuelve un `Observable<boolean>`.
+- Respuesta simulada con un retardo de dos segundos usando `delay`.
+- El componente Login se suscribe al observable para redirigir o mostrar el error.
+- Indicador de carga de Angular Material mientras se espera la respuesta.
+
+---
+
+## 🗺️ Rutas principales
+
+| Ruta | Descripción |
+| --- | --- |
+| `/home` | Página de bienvenida |
+| `/login` | Formulario de acceso |
+| `/acerca-de` | Información del laboratorio |
+| `/dashboard` | Página principal del área privada |
+| `/galeria` | Galería de fotos y demostración de Rotate |
+| `/crud` | Área reservada para operaciones CRUD |
+| `/profile` | Área reservada para el perfil |
+
+La ruta raíz y las rutas no encontradas redirigen a `/home`.
+
+---
+
+## 🚀 Instalación y ejecución
+
+#### 1. Clona el repositorio
 
 ```bash
-ng generate --help
+git clone https://github.com/JCMiriam-front-lemoncode-XVIII-labs/module-4_angular.git
 ```
 
-## Building
-
-To build the project run:
+#### 2. Instala las dependencias
 
 ```bash
-ng build
+pnpm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+#### 3. Levanta el entorno de desarrollo
 
 ```bash
-ng test
+pnpm start
 ```
 
-## Running end-to-end tests
+#### 4. Abre [http://localhost:4200](http://localhost:4200) en el navegador.
 
-For end-to-end (e2e) testing, run:
+La aplicación se recargará automáticamente al guardar cambios.
 
-```bash
-ng e2e
-```
+---
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🛠️ Tecnologías usadas
 
-## Additional Resources
+- Angular 20
+- TypeScript
+- Angular Router
+- Angular Reactive Forms
+- Angular Material y Angular CDK
+- RxJS
+- Sass
+- Web Storage API (`localStorage`)
+- Angular CLI y pnpm
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## 📌 Comandos disponibles
+
+| Comando | Descripción |
+| --- | --- |
+| `pnpm start` | Inicia el servidor de desarrollo |
+| `pnpm build` | Genera la build de producción en `dist/` |
+| `pnpm watch` | Compila en modo desarrollo y observa cambios |
+| `pnpm test` | Ejecuta los tests configurados con Karma |
+| `pnpm exec ng generate <schematic>` | Genera elementos mediante Angular CLI |
+
+---
+
+## 📌 Notas
+
+- El estado de autenticación es una simulación local: no existe backend ni token real.
+- Las imágenes de la galería se almacenan localmente y se publican bajo la ruta `assets/gallery/...`.
+- Los estilos priorizan los componentes y el tema por defecto de Angular Material, añadiendo Sass solo para la estructura necesaria.
