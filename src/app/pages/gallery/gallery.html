@@ -5,7 +5,13 @@
   </header>
 
   <div class="gallery__viewer">
-    <img [src]="selectedImage.src" [alt]="selectedImage.title" [style.width.%]="imageSize" />
+    <img
+      rotate="0"
+      step="15"
+      [src]="selectedImage.src"
+      [alt]="selectedImage.title"
+      [style.width.%]="imageSize"
+    />
     <p>{{ selectedImage.title }}</p>
   </div>
 

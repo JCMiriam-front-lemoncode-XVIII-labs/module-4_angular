@@ -3,6 +3,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { Rotate } from '../../shared/directives/rotate';
+
 interface GalleryImage {
   id: number;
   src: string;
@@ -11,7 +13,7 @@ interface GalleryImage {
 
 @Component({
   selector: 'app-gallery',
-  imports: [SlicePipe, MatButtonModule, MatIconModule],
+  imports: [SlicePipe, MatButtonModule, MatIconModule, Rotate],
   templateUrl: './gallery.html',
   styleUrl: './gallery.scss',
 })
