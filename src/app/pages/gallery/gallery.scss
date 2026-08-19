@@ -43,6 +43,13 @@
   gap: 0.75rem;
 }
 
+.gallery__pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .gallery__thumbnails {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));

@@ -40,15 +40,30 @@
     }
   </div>
 
+  <div class="gallery__pagination" aria-label="Paginación del listado de imágenes">
+    <button mat-stroked-button type="button" [disabled]="currentPage === 0" (click)="previousPage()">
+      Página anterior
+    </button>
+    <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+    <button
+      mat-stroked-button
+      type="button"
+      [disabled]="currentPage === totalPages - 1"
+      (click)="nextPage()"
+    >
+      Página siguiente
+    </button>
+  </div>
+
   <div class="gallery__thumbnails" aria-label="Listado de imágenes">
-    @for (image of images; track image.id; let imageIndex = $index) {
+    @for (image of images | slice: pageStart : pageEnd; track image.id; let imageIndex = $index) {
       <button
         type="button"
         class="gallery__thumbnail"
-        [class.gallery__thumbnail--selected]="imageIndex === selectedIndex"
+        [class.gallery__thumbnail--selected]="pageStart + imageIndex === selectedIndex"
         [attr.aria-label]="'Seleccionar ' + image.title"
-        [attr.aria-pressed]="imageIndex === selectedIndex"
-        (click)="selectImage(imageIndex)"
+        [attr.aria-pressed]="pageStart + imageIndex === selectedIndex"
+        (click)="selectImage(pageStart + imageIndex)"
       >
         <img [src]="image.src" [alt]="image.title" />
       </button>

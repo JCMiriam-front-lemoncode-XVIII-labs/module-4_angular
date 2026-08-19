@@ -1,3 +1,4 @@
+import { SlicePipe } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +11,7 @@ interface GalleryImage {
 
 @Component({
   selector: 'app-gallery',
-  imports: [MatButtonModule, MatIconModule],
+  imports: [SlicePipe, MatButtonModule, MatIconModule],
   templateUrl: './gallery.html',
   styleUrl: './gallery.scss',
 })
@@ -27,27 +28,42 @@ export class Gallery implements OnDestroy {
   ];
 
   selectedIndex = 0;
+  currentPage = 0;
   imageSize = 100;
   isPlaying = false;
+  readonly pageSize = 3;
   private playerId?: number;
 
   get selectedImage(): GalleryImage {
     return this.images[this.selectedIndex];
   }
 
+  get pageStart(): number {
+    return this.currentPage * this.pageSize;
+  }
+
+  get pageEnd(): number {
+    return this.pageStart + this.pageSize;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.images.length / this.pageSize);
+  }
+
   selectImage(index: number): void {
     this.selectedIndex = index;
+    this.currentPage = Math.floor(index / this.pageSize);
   }
 
   previous(): void {
     if (this.selectedIndex > 0) {
-      this.selectedIndex--;
+      this.selectImage(this.selectedIndex - 1);
     }
   }
 
   next(): void {
     if (this.selectedIndex < this.images.length - 1) {
-      this.selectedIndex++;
+      this.selectImage(this.selectedIndex + 1);
     }
   }
 
@@ -59,6 +75,18 @@ export class Gallery implements OnDestroy {
     this.imageSize = Math.max(this.imageSize - 10, 60);
   }
 
+  previousPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+    }
+  }
+
   play(): void {
     if (this.isPlaying) {
       return;
@@ -66,7 +94,7 @@ export class Gallery implements OnDestroy {
 
     this.isPlaying = true;
     this.playerId = window.setInterval(() => {
-      this.selectedIndex = (this.selectedIndex + 1) % this.images.length;
+      this.selectImage((this.selectedIndex + 1) % this.images.length);
     }, 2000);
   }
 
