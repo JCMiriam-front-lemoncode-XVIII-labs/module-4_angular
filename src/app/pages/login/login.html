@@ -1,5 +1,43 @@
-<section class="page-placeholder">
-  <p class="page-placeholder__eyebrow">Página pública</p>
-  <h1>Login</h1>
-  <p>El formulario de acceso se incorporará en la siguiente fase.</p>
+<section class="login-page" aria-labelledby="login-title">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title id="login-title">Login</mat-card-title>
+      <mat-card-subtitle>Introduce tus credenciales para acceder.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+        <mat-form-field appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="username" autocomplete="username" type="email" />
+          @if (loginForm.controls.username.hasError('required')) {
+            <mat-error>El usuario es obligatorio.</mat-error>
+          } @else if (loginForm.controls.username.hasError('email')) {
+            <mat-error>Introduce un email válido.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            autocomplete="current-password"
+            type="password"
+          />
+          @if (loginForm.controls.password.hasError('required')) {
+            <mat-error>La contraseña es obligatoria.</mat-error>
+          } @else if (loginForm.controls.password.hasError('minlength')) {
+            <mat-error>La contraseña debe tener al menos 8 caracteres.</mat-error>
+          }
+        </mat-form-field>
+
+        @if (loginError) {
+          <p class="login-form__error" role="alert">{{ loginError }}</p>
+        }
+
+        <button mat-flat-button type="submit">Entrar</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </section>
