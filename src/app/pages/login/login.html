@@ -36,7 +36,14 @@
           <p class="login-form__error" role="alert">{{ loginError }}</p>
         }
 
-        <button mat-flat-button type="submit">Entrar</button>
+        @if (isSubmitting) {
+          <div class="login-form__loading" role="status" aria-live="polite">
+            <mat-progress-spinner diameter="20" mode="indeterminate" />
+            <span>Comprobando credenciales…</span>
+          </div>
+        }
+
+        <button mat-flat-button type="submit" [disabled]="isSubmitting">Entrar</button>
       </form>
     </mat-card-content>
   </mat-card>

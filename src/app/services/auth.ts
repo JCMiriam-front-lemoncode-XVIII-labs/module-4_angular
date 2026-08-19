@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { delay, Observable, of, tap } from 'rxjs';
 
 export interface LoginCredentials {
   username: string;
@@ -12,15 +13,18 @@ export class Auth {
   private readonly storageKey = 'angular-lab.username';
   private username = localStorage.getItem(this.storageKey) ?? '';
 
-  login({ username, password }: LoginCredentials): boolean {
+  login({ username, password }: LoginCredentials): Observable<boolean> {
     const isValidUser = username === 'master@lemoncode.net' && password === '12345678';
 
-    if (isValidUser) {
-      this.username = username;
-      localStorage.setItem(this.storageKey, username);
-    }
-
-    return isValidUser;
+    return of(isValidUser).pipe(
+      delay(2000),
+      tap((isLogged) => {
+        if (isLogged) {
+          this.username = username;
+          localStorage.setItem(this.storageKey, username);
+        }
+      }),
+    );
   }
 
   logout(): void {

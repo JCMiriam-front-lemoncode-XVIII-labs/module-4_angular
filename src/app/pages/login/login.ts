@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
 import { Auth } from '../../services/auth';
@@ -16,6 +17,7 @@ import { Auth } from '../../services/auth';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
@@ -36,6 +38,7 @@ export class Login {
   });
 
   loginError = '';
+  isSubmitting = false;
 
   submit(): void {
     if (this.loginForm.invalid) {
@@ -43,13 +46,21 @@ export class Login {
       return;
     }
 
-    const isLogged = this.auth.login(this.loginForm.getRawValue());
+    this.isSubmitting = true;
+    this.loginError = '';
 
-    if (isLogged) {
-      void this.router.navigate(['/dashboard']);
-      return;
-    }
+    this.auth.login(this.loginForm.getRawValue()).subscribe({
+      next: (isLogged) => {
+        if (isLogged) {
+          void this.router.navigate(['/dashboard']);
+          return;
+        }
 
-    this.loginError = 'Usuario o contraseña incorrectos.';
+        this.loginError = 'Usuario o contraseña incorrectos.';
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      },
+    });
   }
 }
